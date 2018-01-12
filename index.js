@@ -1,8 +1,7 @@
+const RootLogger = require('./lib/root');
 
-exports.setup = function(loggerName, name, options) {
-    const Logger = require('./lib/loggers/' + loggerName);
-    var logger = new Logger();
-    logger.setup(name, options);
-    module.exports = logger;
-    return logger;
+exports.setup = function(provider, name, options) {
+    const rrr = new RootLogger(provider, name, options);
+    module.exports = rrr.logger;
+    return rrr.logger;
 }
