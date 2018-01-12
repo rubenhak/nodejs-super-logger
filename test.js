@@ -1,4 +1,9 @@
-var log = require('./index').setup('bunyan', 'my-project', true);
+var log = require('./index').setup('bunyan', 'my-project',
+    {
+        enableFile: true,
+        // path: 'my-logs',
+        cleanOnStart: true
+    });
 
 
 log = require('./index');
