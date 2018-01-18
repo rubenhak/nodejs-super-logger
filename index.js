@@ -19,8 +19,8 @@ function createLocal(provider, name, options) {
     if (module._globalOptions) {
         options = module._globalOptions;
     }
-    var logger = new RootLogger(provider, name, options);
-    return logger;
+    var rootLogger = new RootLogger(provider, name, options);
+    return rootLogger.logger;
 }
 
 module.exports.setup = createGlobal;
