@@ -4,12 +4,11 @@ var log = require('./index').setup('bunyan', 'my-project',
         path: 'my-logs',
         cleanOnStart: true
     });
+log.level = 'warn';
 
 log.info('Hello from the app');
 
-
 log = require('./index');
-log.level = 'verbose';
 
 log.info('Another hello');
 
@@ -32,5 +31,7 @@ awsLogger.info('Hello from AWS');
 
 var azureLogger = log.sublogger('AZURE');
 azureLogger.warn('Hello from Azure');
+
+log.level = 'info';
 
 log.info('THE END.');
