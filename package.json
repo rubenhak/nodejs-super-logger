@@ -1,6 +1,6 @@
 {
   "name": "the-logger",
-  "version": "1.0.25",
+  "version": "1.0.26",
   "description": "",
   "main": "index.js",
   "directories": {
@@ -9,7 +9,7 @@
   "dependencies": {
     "bunyan": "^1.8.12",
     "delete": "^1.1.0",
-    "lodash": "^4.17.5"
+    "lodash": "^4.17.10"
   },
   "devDependencies": {},
   "scripts": {
