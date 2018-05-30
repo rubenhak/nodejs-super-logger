@@ -15,6 +15,9 @@ log.info('Another hello');
 log.error('Something went wrong. reason: %s', 'Object is null', {userId: 11, email: 'john@doe.com'});
 log.warn('Objects are not same. ',{userId: 11, email: 'john@doe.com'}, {userId: 22, email: 'jane@doe.com'});
 
+var contents = {'aaa': 'bbb', 'zzz': 123};
+log.outputFile('test.txt', contents);
+
 try {
     throw new Error('Index is out of range');
 } catch (e) {
