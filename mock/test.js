@@ -1,14 +1,15 @@
-var log = require('./index').setup('bunyan', 'my-project',
+var log = require('..').setup('my-project',
     {
         enableFile: true,
         path: 'my-logs',
-        cleanOnStart: true
+        cleanOnStart: true,
+        pretty: false
     });
 log.level = 'warn';
 
 log.info('Hello from the app');
 
-log = require('./index');
+log = require('..');
 
 log.info('Another hello');
 

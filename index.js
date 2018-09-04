@@ -1,10 +1,19 @@
+const IMPLEMENTATION = 'pino'
+// const IMPLEMENTATION = 'bunyan'
+
 const RootLogger = require('./lib/root');
 
-function createGlobal(provider, name, options) {
-    module._globalProvider = provider;
+function createGlobal(name, options, customOptions) {
+    module._globalProvider = IMPLEMENTATION;
     module._globalOptions = options;
 
-    var rootLogger = new RootLogger(provider, name, options);
+    if (customOptions) {
+        if (customOptions.provider) {
+            module._globalProvider = customOptions.provider
+        }
+    }
+
+    var rootLogger = new RootLogger(module._globalProvider, name, options);
 
     module.exports = rootLogger.logger;
     module.exports.setup = createLocal;
@@ -12,12 +21,15 @@ function createGlobal(provider, name, options) {
     return module.exports;
 }
 
-function createLocal(provider, name, options) {
-    if (module._globalProvider) {
-        provider = module._globalProvider;
-    }
+function createLocal(name, options, customOptions) {
     if (module._globalOptions) {
         options = module._globalOptions;
+    }
+    var provider = module._globalProvider;
+    if (customOptions) {
+        if (customOptions.provider) {
+            provider = customOptions.provider;
+        }
     }
     var rootLogger = new RootLogger(provider, name, options);
     return rootLogger.logger;
