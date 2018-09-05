@@ -25,3 +25,11 @@ logger.level = 'info';
 logger.info("DATA AFTER LEVEL CHANGE ", data);
 sublogger.level = 'info';
 sublogger.info("FROM INSIDE AFTER LEVEL CHANGE %s = %s", "aaa", 1234, data)
+
+try {
+    throw new Error("AAAAAAAAAAAA")
+} catch(err) {
+    logger.error("Error One: ", err);
+    logger.error("Error Two: %s", err);
+    logger.error(err);
+}
