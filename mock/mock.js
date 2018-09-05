@@ -1,7 +1,8 @@
 const logger = require('../').setup('berlioz', {
     enableFile: true,
+    path: 'my-logs',
     cleanOnStart: false,
-    pretty: false
+    pretty: true
 });
 logger.level = 'error';
 
