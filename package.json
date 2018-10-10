@@ -11,7 +11,7 @@
     "multi-write-stream": "2.0.1",
     "pino": "5.4.1",
     "pino-pretty": "2.1.0",
-    "the-lodash": "^1.0.5"
+    "the-lodash": "^1.0.10"
   },
   "devDependencies": {},
   "scripts": {
