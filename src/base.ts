@@ -1,17 +1,27 @@
-const _ = require('the-lodash');
-const path = require('path');
-const fs = require('fs');
+import _ from 'the-lodash';
+import { join as pathJoin }  from 'path';
+import { createWriteStream }  from 'fs';
+
+import { RootLogger } from './root';
 
 class BaseLogger
 {
-    constructor(root, levelsMap)
+    private _root: RootLogger;
+    private _name : string;
+    protected _logFile? : string;
+    
+    constructor(root : RootLogger, name : string, levelsMap: any)
     {
         this._root = root;
-        this._parent = null;
-        this._subloggers = [];
-        this._level = null;
-        this._levelsMap = levelsMap;
-        this._logLevels = ['error', 'warn', 'info', 'verbose', 'debug', 'silly'];
+        this._name = name;
+
+        // this._level = null;
+        // this._levelsMap = levelsMap;
+        // this._logLevels = ['error', 'warn', 'info', 'verbose', 'debug', 'silly'];
+    }
+
+    get name() : string {
+        return this._name;
     }
 
     get actualLevel() {
@@ -33,14 +43,13 @@ class BaseLogger
         this._setCurrentLevel();
     }
 
-    setup(name, options)
+    setup(options)
     {
-        this._name = name;
         this._options = options;
 
         if (this._options.enableFile) {
             var dir = this._root.rootDir;
-            this._logFile = path.join(dir, this._name + '.log');
+            this._logFile = pathJoin(dir, this._name + '.log');
         } else {
             this._logFile = null;
         }
@@ -60,8 +69,8 @@ class BaseLogger
             return null;
         }
 
-        var filePath = path.join(this._root.rootDir, fileName);
-        var writer = fs.createWriteStream(filePath);
+        var filePath = pathJoin(this._root.rootDir, fileName);
+        var writer = createWriteStream(filePath);
 
         var wrapper = {
             _indent: 0,
@@ -199,4 +208,4 @@ class BaseLogger
     }
 }
 
-module.exports = BaseLogger;
+export { BaseLogger };

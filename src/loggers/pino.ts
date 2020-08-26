@@ -2,17 +2,30 @@
 // "pino": "^5.4.1",
 // "pino-pretty": "^2.1.0",
 
-const _ = require('the-lodash');
-const BaseLogger = require('../base');
-const fs = require('fs');
-const Pino = require('pino');
-const PinoMultiStream = require('pino-multi-stream').multistream;
+import { createWriteStream } from 'fs';
+import _ from 'the-lodash';
 
-class PinoLogger extends BaseLogger
+import * as Pino from 'pino';
+
+import * as PinoMultiStream from 'pino-multi-stream';
+
+import { Options } from '../options';
+import { BaseLogger } from '../base';
+import { ILogger, ILoggerFunc } from '../ilogger';
+import { RootLogger } from '../root';
+
+// const BaseLogger = require('../base');
+// const Pino = require('pino');
+// const PinoMultiStream = require('pino-multi-stream').multistream;
+
+class PinoLogger extends BaseLogger implements ILogger
 {
-    constructor(root)
+    private _log : Pino.Logger = null;
+    private _options : Options = {};
+
+    constructor(root: RootLogger, name: string)
     {
-        super(root, {
+        super(root, name, {
             'error' : 'error',
             'warn' : 'warn',
             'info' : 'info',
@@ -24,8 +37,8 @@ class PinoLogger extends BaseLogger
 
     _init()
     {
-        var pinoOptions = {
-            name: this._name
+        var pinoOptions : Pino.LoggerOptions = {
+            name: this.name
         }
 
         var outputStreamList = [];
@@ -50,7 +63,7 @@ class PinoLogger extends BaseLogger
         process.stdout.setMaxListeners(process.stdout.getMaxListeners() + 1);
 
         if (this._logFile) {
-            var logFileStream = fs.createWriteStream(this._logFile);
+            var logFileStream = createWriteStream(this._logFile);
             outputStreamList.push(logFileStream);
         }
 
@@ -68,6 +81,7 @@ class PinoLogger extends BaseLogger
 
     _executeLog(level, args)
     {
+        this._log.error
         var handler = this._log[level];
         if (handler.name == 'noop') {
             return;
@@ -111,4 +125,4 @@ class PinoLogger extends BaseLogger
     }
 }
 
-module.exports = PinoLogger;
+export { PinoLogger }
