@@ -1,5 +1,5 @@
 
-import { existsSync as fsExistsSync, mkdirSync as fsMkdirSync } from 'fs';
+import { existsSync as fsExistsSync } from 'fs';
 import { emptyDirSync } from 'fs-extra/lib/empty';
 import * as mkdirp from 'mkdirp'
 
@@ -63,12 +63,12 @@ class RootLogger
             dir = this._rootOptions.path;
         }
         if (this._rootOptions.cleanOnStart) {
+            console.log("DELETING DIRECTORY")
             emptyDirSync(dir);
         }
         console.log(dir);
         if (!fsExistsSync(dir)) {
             mkdirp.sync(dir);
-            // fsMkdirSync(dir);
         }
         this._rootDir = dir;
     }

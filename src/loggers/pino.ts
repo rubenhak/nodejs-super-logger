@@ -70,7 +70,10 @@ class PinoLogger extends BaseLogger implements ILogger
         process.stdout.setMaxListeners(process.stdout.getMaxListeners() + 1);
 
         if (this._logFile) {
-            var logFileStream = createWriteStream(this._logFile);
+            var streamOptions = {
+                flags: 'a'
+            }
+            var logFileStream = createWriteStream(this._logFile, streamOptions);
             outputStreamList.push({ level: myLevel, stream: logFileStream });
         }
 

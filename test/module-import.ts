@@ -94,11 +94,47 @@ describe('logger-tests', () => {
         var options = new LoggerOptions()
             .pretty(true)
             .enableFile(true)
-            .path('logs/debug')
+            .path('logs/pretty-debug')
             .level(LogLevel.debug)
             ;
         var logger = setupLogger('mylogger', options);
         output(logger);
+        return Promise.timeout(100);
+    });
+
+
+    it('file-output-try-clear-1', () => {
+        var options = new LoggerOptions()
+            .enableFile(true)
+            .path('logs/clear-test')
+            .level(LogLevel.debug)
+            ;
+        var logger = setupLogger('mylogger', options);
+        logger.info("SHOULD NOT BE HERE");
+        return Promise.timeout(100);
+    });
+
+    it('file-output-try-clear-2', () => {
+        var options = new LoggerOptions()
+            .enableFile(true)
+            .cleanOnStart(true)
+            .path('logs/clear-test')
+            .level(LogLevel.debug)
+            ;
+        var logger = setupLogger('mylogger', options);
+        output(logger);
+        logger.info("SHOULD see a line: \"HELLO!!!\" below");
+        return Promise.timeout(100);
+    });
+
+    it('file-output-try-clear-2', () => {
+        var options = new LoggerOptions()
+            .enableFile(true)
+            .path('logs/clear-test')
+            .level(LogLevel.debug)
+            ;
+        var logger = setupLogger('mylogger', options);
+        logger.info("HELLO!!!");
         return Promise.timeout(100);
     });
 
