@@ -11,8 +11,8 @@ class RootLogger
 
     private _subloggers : Record<string, PinoLogger> = {};
     private _rootLogger : ILogger;
-    private _rootOptions : Options
-    private _rootDir: string;
+    private _rootOptions : Options;
+    private _rootDir: string | null = null;
 
     constructor(name: string, options?: Options)
     {
@@ -55,7 +55,11 @@ class RootLogger
         return this._rootLogger;
     }
 
-    sublogger(name) : ILogger
+    get options() : Options {
+        return this._rootOptions;
+    }
+
+    sublogger(name: string) : ILogger
     {
         if (name in this._subloggers) {
             return this._subloggers[name];
@@ -68,13 +72,11 @@ class RootLogger
         return logger;
     }
 
-    _create(name) : PinoLogger
+    _create(name: string) : PinoLogger
     {
         var logger = new PinoLogger(this, name);
-        // if (this.logger) {
-        //     logger.level = this.logger.level;
-        // }
-        // logger.setup(name, this._rootOptions);
+        logger.setup(this._rootOptions);
+        logger.level = this._rootOptions.level;
         return logger;
     }
 

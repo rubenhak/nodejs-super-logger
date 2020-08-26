@@ -1,8 +1,4 @@
-interface ILoggerFunc {
-    (msg: string, ...args: any[]): void;
-    (obj: object, msg?: string, ...args: any[]): void;
-}
-
+type ILoggerFunc = (msg: string, ...args: any[]) => void;
 
 interface ILogger
 {

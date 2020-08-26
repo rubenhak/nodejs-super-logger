@@ -1,6 +1,6 @@
 {
   "name": "the-logger",
-  "version": "1.1.22",
+  "version": "2.0.0",
   "description": "A better logging library for node.js",
   "main": "dist/index.js",
   "types": "dist",
@@ -17,8 +17,7 @@
     "prepublishOnly": "npm test && npm run lint",
     "preversion": "npm run lint",
     "version": "npm run format && git add -A src",
-    "postversion": "git push && git push --tags",
-    "postinstall": "npm run build"
+    "postversion": "git push && git push --tags"
   },
   "author": "Ruben Hakopian <ruben.hakopian@gmail.com>",
   "license": "MIT",
@@ -31,12 +30,12 @@
   },
   "homepage": "https://github.com/rubenhak/nodejs-super-logger#readme",
   "dependencies": {
-    "the-lodash": "^1.2.1",
-    "the-promise": "^1.3.3",
     "delete": "1.1.0",
     "pino": "6.5.1",
     "pino-multi-stream": "5.1.1",
-    "pino-pretty": "4.1.0"
+    "pino-pretty": "4.1.0",
+    "the-lodash": "^2.0.0",
+    "the-promise": "^2.0.0"
   },
   "devDependencies": {
     "@types/mocha": "^8.0.3",
