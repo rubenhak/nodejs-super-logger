@@ -31,6 +31,7 @@
   "homepage": "https://github.com/rubenhak/nodejs-super-logger#readme",
   "dependencies": {
     "fs-extra": "9.0.1",
+    "mkdirp": "^1.0.4",
     "pino": "6.3.0",
     "pino-multi-stream": "5.1.1",
     "pino-pretty": "4.1.0",

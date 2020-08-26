@@ -4,15 +4,6 @@ import _ from 'the-lodash';
 import Pino = require('pino');
 import PinoMultiStream = require('pino-multi-stream');
 
-// import * as pino from 'pino';
-// import * as PinoMultiStream from 'pino-multi-stream';
-
-// import { Pino } from 'pino';
-
-// type Pino = P;
-// const Pino = require('pino');
-// const PinoMultiStream = require('pino-multi-stream').multistream;
-
 import { BaseLogger } from '../base';
 import { ILogger, ILoggerFunc } from '../ilogger';
 import { RootLogger } from '../root';
@@ -47,9 +38,15 @@ class PinoLogger extends BaseLogger implements ILogger
 
     _implInit()
     {
+        var myLevel = this._getLevel(this.level);
+
         var pinoOptions : Pino.LoggerOptions = {
-            name: this.name
+            name: this.name,
+            level: myLevel
         }
+
+        console.log(`pinoOptions`, pinoOptions);
+
 
         var outputStreamList : any[] = [];
 
@@ -64,26 +61,21 @@ class PinoLogger extends BaseLogger implements ILogger
                 },
                 PinoPretty,
                 process.stdout);
-            outputStreamList.push(prettyStream);
+            outputStreamList.push({ level: myLevel, stream: prettyStream });
         }
         else
         {
-            outputStreamList.push(process.stdout);
+            outputStreamList.push({ level: myLevel, stream: process.stdout });
         }
         process.stdout.setMaxListeners(process.stdout.getMaxListeners() + 1);
 
         if (this._logFile) {
             var logFileStream = createWriteStream(this._logFile);
-            outputStreamList.push(logFileStream);
+            outputStreamList.push({ level: myLevel, stream: logFileStream });
         }
 
         var myMultiStream = PinoMultiStream.multistream(outputStreamList);
         this._log = Pino(pinoOptions, myMultiStream);
-    }
-
-    _implSetLevel(level : LogLevel)
-    {
-        this.logger.level = this._getLevel(level);
     }
 
     error(msg: string, ...args: any[]): void
@@ -120,7 +112,6 @@ class PinoLogger extends BaseLogger implements ILogger
     {
         var xlevel = this._getLevel(level);
         var handler = this.logger[xlevel];
-
         if (handler.name == 'noop') {
             return;
         }

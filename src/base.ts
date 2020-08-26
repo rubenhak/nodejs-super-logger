@@ -34,11 +34,6 @@ class BaseLogger
         return this._options;
     }
 
-    set level(newLevel) {
-        this._level = newLevel;
-        this._setCurrentLevel();
-    }
-
     setup(options : Options)
     {
         this._options = options;
@@ -50,76 +45,10 @@ class BaseLogger
             this._logFile = null;
         }
 
+        this._level = this.options.level;
         this._implInit();
-        this._setCurrentLevel();
     }
 
-    // outputStream(fileName: string) : any
-    // {
-    //     if (!this._options.enableFile) {
-    //         return null;
-    //     }
-
-    //     var filePath = pathJoin(this._root.rootDir!, fileName);
-    //     var writer = createWriteStream(filePath);
-
-    //     var wrapper = {
-    //         _indent: 0,
-    //         write: (str) => {
-    //             if (_.isNotNullOrUndefined(str)) {
-    //                 if (_.isObject(str)) {
-    //                     for (var x of JSON.stringify(str, null, 4).split('\n'))
-    //                     {
-    //                         writer.write('    '.repeat(wrapper._indent));
-    //                         writer.write(x);
-    //                         writer.write('\n');
-    //                     }
-    //                 } else {
-    //                     writer.write('    '.repeat(wrapper._indent));
-    //                     writer.write(str);
-    //                     writer.write('\n');
-    //                 }
-    //             }
-    //         },
-    //         writeHeader: (str) => {
-    //             wrapper.write();
-    //             wrapper.write('**** ' + str);
-    //         },
-    //         indent: () => {
-    //             wrapper._indent++;
-    //         },
-    //         unindent: () => {
-    //             wrapper._indent--;
-    //         },
-    //         close: () => {
-    //             return new Promise((resolve, reject) => {
-    //                 writer.on('error', (err) => {
-    //                     reject(err);
-    //                 });
-    //                 writer.end(null, null, () => {
-    //                     resolve();
-    //                 });
-    //                 writer.end();
-    //             });
-    //         }
-    //     }
-    //     return wrapper;
-    // }
-
-    // outputFile(fileName, contents)
-    // {
-    //     var writer = this.outputStream(fileName);
-    //     if (!writer) {
-    //         return Promise.resolve();
-    //     }
-    //     writer.write(contents);
-    //     return writer.close();
-    // }
-
-    _setCurrentLevel()
-    {
-        this._implSetLevel(this.level);
-    }
 
     sublogger(name: string) : ILogger
     {
@@ -127,11 +56,6 @@ class BaseLogger
     }
 
     _implInit()
-    {
-        throw new Error("Not Implemented");
-    }
-
-    _implSetLevel(level : LogLevel)
     {
         throw new Error("Not Implemented");
     }

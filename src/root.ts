@@ -1,6 +1,7 @@
 
 import { existsSync as fsExistsSync, mkdirSync as fsMkdirSync } from 'fs';
 import { emptyDirSync } from 'fs-extra/lib/empty';
+import * as mkdirp from 'mkdirp'
 
 import { ILogger } from './ilogger';
 import { Options } from './options';
@@ -64,8 +65,10 @@ class RootLogger
         if (this._rootOptions.cleanOnStart) {
             emptyDirSync(dir);
         }
+        console.log(dir);
         if (!fsExistsSync(dir)) {
-            fsMkdirSync(dir);
+            mkdirp.sync(dir);
+            // fsMkdirSync(dir);
         }
         this._rootDir = dir;
     }
@@ -74,7 +77,6 @@ class RootLogger
     {
         var logger = new PinoLogger(this, name);
         logger.setup(this._rootOptions);
-        logger.level = this._rootOptions.level;
         return logger;
     }
 
