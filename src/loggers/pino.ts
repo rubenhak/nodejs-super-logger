@@ -77,8 +77,8 @@ class PinoLogger extends BaseLogger implements ILogger
             outputStreamList.push(logFileStream);
         }
 
-        var myMultiStream = PinoMultiStream(outputStreamList);
-        this._log = Pino(pinoOptions); //, myMultiStream);
+        var myMultiStream = PinoMultiStream.multistream(outputStreamList);
+        this._log = Pino(pinoOptions, myMultiStream);
     }
 
     _implSetLevel(level : LogLevel)

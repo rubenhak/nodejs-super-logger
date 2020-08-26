@@ -2,12 +2,18 @@
 import { RootLogger } from './root';
 
 import { ILogger } from './ilogger';
-import { Options } from './options';
+import { Options, OptionsBuilder } from './options';
 
-function setup(name: string, options? : Options) : ILogger {
-    var rootLogger = new RootLogger(name, options);
+function setup(name: string, options? : OptionsBuilder) : ILogger {
+    let optionsObj : Options | undefined;
+    if (options) {
+        optionsObj = options!.build();
+    }
+    var rootLogger = new RootLogger(name, optionsObj);
     var logger = rootLogger.logger;
     return logger;
 }
 
-export { setup };
+export { setup as setupLogger };
+export { ILogger };
+export { OptionsBuilder as LoggerOptions };
