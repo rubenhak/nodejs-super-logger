@@ -1,22 +1,23 @@
-// "multi-write-stream": "^2.0.1",
-// "pino": "^5.4.1",
-// "pino-pretty": "^2.1.0",
-
 import { createWriteStream } from 'fs';
 import _ from 'the-lodash';
 
-import * as Pino from 'pino';
+import Pino = require('pino');
+import PinoMultiStream = require('pino-multi-stream');
 
-import * as PinoMultiStream from 'pino-multi-stream';
+// import * as pino from 'pino';
+// import * as PinoMultiStream from 'pino-multi-stream';
+
+// import { Pino } from 'pino';
+
+// type Pino = P;
+// const Pino = require('pino');
+// const PinoMultiStream = require('pino-multi-stream').multistream;
 
 import { BaseLogger } from '../base';
 import { ILogger, ILoggerFunc } from '../ilogger';
 import { RootLogger } from '../root';
 import { LogLevel } from '../levels';
 
-// const BaseLogger = require('../base');
-// const Pino = require('pino');
-// const PinoMultiStream = require('pino-multi-stream').multistream;
 
 const LEVEL_DICT = {
     [LogLevel.error]: 'error',
@@ -86,32 +87,32 @@ class PinoLogger extends BaseLogger implements ILogger
 
     error(msg: string, ...args: any[]): void
     {
-        this._executeLog(LogLevel.error, msg, args);
+        this._executeLog(LogLevel.error, msg, ...args);
     }
 
     warn(msg: string, ...args: any[]): void
     {
-        this._executeLog(LogLevel.warn, msg, args);
+        this._executeLog(LogLevel.warn, msg, ...args);
     }
 
     info(msg: string, ...args: any[]): void
     {
-        this._executeLog(LogLevel.info, msg, args);
+        this._executeLog(LogLevel.info, msg, ...args);
     }
 
     verbose(msg: string, ...args: any[]): void
     {
-        this._executeLog(LogLevel.verbose, msg, args);
+        this._executeLog(LogLevel.verbose, msg, ...args);
     }
 
     debug(msg: string, ...args: any[]): void
     {
-        this._executeLog(LogLevel.debug, msg, args);
+        this._executeLog(LogLevel.debug, msg, ...args);
     }
     
     silly(msg: string, ...args: any[]): void
     {
-        this._executeLog(LogLevel.silly, msg, args);
+        this._executeLog(LogLevel.silly, msg, ...args);
     }
     
     _executeLog(level: LogLevel, msg: string, ...args: any[])
@@ -145,7 +146,7 @@ class PinoLogger extends BaseLogger implements ILogger
                 }
             }
         }
-        // handler()
+        handler(msg, ...args);
         // handler.apply(this._log, args);
     }
 

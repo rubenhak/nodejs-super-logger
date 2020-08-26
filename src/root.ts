@@ -1,14 +1,13 @@
 
 import { existsSync as fsExistsSync, mkdirSync as fsMkdirSync } from 'fs';
-import * as del from 'delete';
+import { emptyDirSync } from 'fs-extra/lib/empty';
 
-import { ILogger, ILoggerFunc } from './ilogger';
+import { ILogger } from './ilogger';
 import { Options } from './options';
 import { PinoLogger } from './loggers/pino';
 
 class RootLogger
 {
-
     private _subloggers : Record<string, PinoLogger> = {};
     private _rootLogger : ILogger;
     private _rootOptions : Options;
@@ -25,26 +24,6 @@ class RootLogger
         this._setupOutputDir();
 
         this._rootLogger = this.sublogger(name);
-    }
-
-    _setupOutputDir()
-    {
-        if (!this._rootOptions.enableFile) {
-            return;
-        }
-
-        var dir = 'logs';
-        if (this._rootOptions.path) {
-            dir = this._rootOptions.path;
-        }
-        if (this._rootOptions.cleanOnStart) {
-            var toDelete = dir + '/*';
-            del.sync([toDelete]);
-        }
-        if (!fsExistsSync(dir)) {
-            fsMkdirSync(dir);
-        }
-        this._rootDir = dir;
     }
 
     get rootDir() {
@@ -70,6 +49,25 @@ class RootLogger
         this._subloggers[name] = logger;
 
         return logger;
+    }
+
+    _setupOutputDir()
+    {
+        if (!this._rootOptions.enableFile) {
+            return;
+        }
+
+        var dir = 'logs';
+        if (this._rootOptions.path) {
+            dir = this._rootOptions.path;
+        }
+        if (this._rootOptions.cleanOnStart) {
+            emptyDirSync(dir);
+        }
+        if (!fsExistsSync(dir)) {
+            fsMkdirSync(dir);
+        }
+        this._rootDir = dir;
     }
 
     _create(name: string) : PinoLogger
