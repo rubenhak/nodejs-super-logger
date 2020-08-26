@@ -37,6 +37,10 @@ class PinoLogger extends BaseLogger implements ILogger
         super(root, name); 
     }
 
+    get logger() : Pino.Logger {
+        return this._log!;
+    }
+
     _getLevel(level: LogLevel) : string {
         return LEVEL_DICT[level];
     }
@@ -74,15 +78,12 @@ class PinoLogger extends BaseLogger implements ILogger
         }
 
         var myMultiStream = PinoMultiStream(outputStreamList);
-        this._log = Pino(pinoOptions, myMultiStream);
+        this._log = Pino(pinoOptions); //, myMultiStream);
     }
 
     _implSetLevel(level : LogLevel)
     {
-        if (!this._log) {
-            return;
-        }
-        this._log.level = this._getLevel(level);
+        this.logger.level = this._getLevel(level);
     }
 
     error(msg: string, ...args: any[]): void
@@ -118,7 +119,7 @@ class PinoLogger extends BaseLogger implements ILogger
     _executeLog(level: LogLevel, msg: string, ...args: any[])
     {
         var xlevel = this._getLevel(level);
-        var handler = this._log![xlevel];
+        var handler = this.logger[xlevel];
 
         if (handler.name == 'noop') {
             return;
@@ -146,13 +147,12 @@ class PinoLogger extends BaseLogger implements ILogger
                 }
             }
         }
-        handler(msg, ...args);
-        // handler.apply(this._log, args);
+        handler.call(this._log, {}, msg, ...args);
     }
 
     flush()
     {
-        this._log!.flush()
+        this.logger.flush()
     }
 }
 
