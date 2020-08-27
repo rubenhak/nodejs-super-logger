@@ -1,11 +1,12 @@
 import _ from 'the-lodash';
 import { join as pathJoin }  from 'path';
-import { createWriteStream }  from 'fs';
 
 import { Options } from './options';
 import { LogLevel } from './levels';
 import { RootLogger } from './root';
 import { ILogger } from './ilogger';
+
+import { DumpWriter } from './dump-writer'; 
 
 class BaseLogger
 {
@@ -39,7 +40,7 @@ class BaseLogger
         this._options = options;
 
         if (this._options.enableFile) {
-            var dir = this._root.rootDir!;
+            let dir = this._root.rootDir!;
             this._logFile = pathJoin(dir, this._name + '.log');
         } else {
             this._logFile = null;
@@ -54,78 +55,34 @@ class BaseLogger
         return this._root.sublogger(name);
     }
 
-    _implInit()
+    _implInit() : void
     {
         throw new Error("Not Implemented");
     }
 
-    flush()
+    flush() : void
     {
-
+        
     }
 
-
-
-    outputStream(fileName: string)
+    outputStream(fileName: string) : DumpWriter | null
     {
         if (!this.options.enableFile) {
             return null;
         }
 
-        var filePath = pathJoin(this._root.rootDir!, fileName);
-        var writer = createWriteStream(filePath);
-
-        var wrapper = {
-            _indent: 0,
-            write: (str) => {
-                if (_.isNotNullOrUndefined(str)) {
-                    if (_.isObject(str)) {
-                        for (var x of JSON.stringify(str, null, 4).split('\n'))
-                        {
-                            writer.write('    '.repeat(wrapper._indent));
-                            writer.write(x);
-                            writer.write('\n');
-                        }
-                    } else {
-                        writer.write('    '.repeat(wrapper._indent));
-                        writer.write(str);
-                        writer.write('\n');
-                    }
-                }
-            },
-            writeHeader: (str) => {
-                wrapper.write();
-                wrapper.write('**** ' + str);
-            },
-            indent: () => {
-                wrapper._indent++;
-            },
-            unindent: () => {
-                wrapper._indent--;
-            },
-            close: () => {
-                return new Promise((resolve, reject) => {
-                    writer.on('error', (err) => {
-                        reject(err);
-                    });
-                    writer.end(null, null, () => {
-                        resolve();
-                    });
-                    writer.end();
-                });
-            }
-        }
-        return wrapper;
+        const filePath = pathJoin(this._root.rootDir!, fileName);
+        const writer = new DumpWriter(filePath);
+        return writer;
     }
 
-    outputFile(fileName, contents)
+    outputFile(fileName: string, contents: any) : Promise<void>
     {
-        var writer = this.outputStream(fileName);
+        const writer = this.outputStream(fileName);
         if (!writer) {
             return Promise.resolve();
         }
-        writer.write(contents);
-        return writer.close();
+        return writer!.write(contents).close();
     }
 }
 
