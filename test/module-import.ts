@@ -146,5 +146,30 @@ describe('logger-tests', () => {
         logger.debug("D - Hello, world");
         logger.verbose("V - Hello, world");
         logger.silly("S - Hello, world");
+
+        logger.info("Test: %s + %s = %s", 4, 5, 4+5);
+
+        var obj = {
+            foo: 'bar',
+            another: {
+                foo: 'not-foo'
+            }
+        }
+        logger.info("Hello : ", obj);
+
+        logger.info("Hello  %s!, data: ", 'world', obj);
+
+        try
+        {
+            throw new Error("We did something wrong");
+        }
+        catch(reason)
+        {
+            logger.exception(reason);
+            logger.error("Error happened. no argument: ", reason);
+            logger.error("Error happened. with argument: %s", reason);
+            logger.warn("Error happened. custom format, no error argument. in %s: ", '[output]', reason);
+            logger.warn("Error happened. custom format, with error argument. in %s: . err: %s", '[output]', reason);
+        }
     }
 });

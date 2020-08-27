@@ -45,9 +45,6 @@ class PinoLogger extends BaseLogger implements ILogger
             level: myLevel
         }
 
-        console.log(`pinoOptions`, pinoOptions);
-
-
         var outputStreamList : any[] = [];
 
         if (this.options.pretty) 
@@ -79,6 +76,11 @@ class PinoLogger extends BaseLogger implements ILogger
 
         var myMultiStream = PinoMultiStream.multistream(outputStreamList);
         this._log = Pino(pinoOptions, myMultiStream);
+    }
+
+    exception(error: Error) : void
+    {
+        this.error("*** EXCEPTION HAPPENED ***", error);
     }
 
     error(msg: string, ...args: any[]): void
@@ -118,30 +120,37 @@ class PinoLogger extends BaseLogger implements ILogger
         if (handler.name == 'noop') {
             return;
         }
+        var mergingObj : Record<string, any> = {};
         if (args.length > 0) {
-            if (_.isString(args[0])) {
-                var count = (args[0].match(/%s/g) || []).length;
-                var dataList = args.splice(count + 1);
-                var data : Record<string, any> = {};
-                for(let i in dataList) {
-                    var obj = dataList[i];
-                    if (obj instanceof Error) {
-                        args.push(obj);
-                    } else {
-                        data[`arg${i}`] = obj;
-                    }
-                }
-                if (_.keys(data).length > 0) {
-                    args.unshift(data);
+            
+            var count = (msg.match(/%s|%d|%O|%o|%j/g) || []).length;
+
+            var formatArgs = _.take(args, count);
+            var objArgs = _.drop(args, count);
+            for(let i in objArgs)
+            {
+                var obj = objArgs[i];
+                if (obj instanceof Error) {
+                    msg += ' %s';
+                    formatArgs.push(obj.stack);
+                } else {
+                    mergingObj[`arg${i}`] = obj;
                 }
             }
+
+            args = formatArgs;
+            
             for(let i = 0; i < args.length; i++) {
-                if (args[i] instanceof Error) {
-                    args[i] = args[i].stack
+                let val = args[i];
+                if (val instanceof Error) {
+                    mergingObj[`arg${_.keys(mergingObj).length}`] = 'Error: ' + val.message; 
+                    args[i] = val.stack;
                 }
             }
         }
-        handler.call(this._log, {}, msg, ...args);
+        // console.log('mergingObj: ', mergingObj)
+        // console.log('args: ', args)
+        handler.call(this._log, mergingObj, msg, ...args);
     }
 
     flush()

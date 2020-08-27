@@ -63,10 +63,8 @@ class RootLogger
             dir = this._rootOptions.path;
         }
         if (this._rootOptions.cleanOnStart) {
-            console.log("DELETING DIRECTORY")
             emptyDirSync(dir);
         }
-        console.log(dir);
         if (!fsExistsSync(dir)) {
             mkdirp.sync(dir);
         }
@@ -77,6 +75,7 @@ class RootLogger
     {
         var logger = new PinoLogger(this, name);
         logger.setup(this._rootOptions);
+        logger.info('Initialized');
         return logger;
     }
 

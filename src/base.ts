@@ -49,7 +49,6 @@ class BaseLogger
         this._implInit();
     }
 
-
     sublogger(name: string) : ILogger
     {
         return this._root.sublogger(name);

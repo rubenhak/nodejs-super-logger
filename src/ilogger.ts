@@ -4,6 +4,8 @@ interface ILogger
 {
     sublogger(name: string) : ILogger,
 
+    exception: (error: Error) => void,
+    
     error: ILoggerFunc,
     warn: ILoggerFunc,
     info: ILoggerFunc,
