@@ -1,7 +1,7 @@
 import { createWriteStream }  from 'fs';
 import { Writable }  from 'stream';
 import _ from 'the-lodash';
-import Promise from 'the-promise';
+import { Promise } from 'the-promise';
 
 class DumpWriter
 {

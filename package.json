@@ -1,6 +1,6 @@
 {
   "name": "the-logger",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A better logging library for node.js",
   "main": "dist/index.js",
   "types": "dist",
@@ -36,7 +36,7 @@
     "pino-multi-stream": "5.1.1",
     "pino-pretty": "4.1.0",
     "the-lodash": "^2.0.0",
-    "the-promise": "^2.0.1"
+    "the-promise": "^2.0.2"
   },
   "devDependencies": {
     "@types/mocha": "^8.0.3",

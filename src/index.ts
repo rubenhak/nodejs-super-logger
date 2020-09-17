@@ -17,3 +17,4 @@ function setup(name: string, options? : OptionsBuilder) : ILogger {
 export { setup as setupLogger };
 export { ILogger };
 export { OptionsBuilder as LoggerOptions };
+export { LogLevel } from './levels';
