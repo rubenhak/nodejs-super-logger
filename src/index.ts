@@ -4,17 +4,22 @@ import { RootLogger } from './root';
 import { ILogger } from './ilogger';
 import { Options, OptionsBuilder } from './options';
 
-function setup(name: string, options? : OptionsBuilder) : ILogger {
+function setupRootLogger(name: string, options? : OptionsBuilder) : RootLogger {
     let optionsObj : Options | undefined;
     if (options) {
         optionsObj = options!.build();
     }
     var rootLogger = new RootLogger(name, optionsObj);
-    var logger = rootLogger.logger;
-    return logger;
+    return rootLogger;
 }
 
-export { setup as setupLogger };
+function setupLogger(name: string, options? : OptionsBuilder) : ILogger {
+    const rootLogger = setupRootLogger(name, options);
+    return rootLogger.logger;
+}
+
+export { setupRootLogger, setupLogger };
 export { ILogger };
+export { RootLogger };
 export { OptionsBuilder as LoggerOptions };
 export { LogLevel } from './levels';

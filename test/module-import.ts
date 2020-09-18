@@ -1,21 +1,25 @@
 import 'mocha';
 import should = require('should');
 import { Promise } from 'the-promise';
-import { setupLogger, ILogger, LoggerOptions } from '../src';
+import { setupLogger, setupRootLogger, ILogger, LoggerOptions } from '../src';
 import { LogLevel } from '../src/levels';
 
 describe('logger-tests', () => {
     
     it('default-use', () => {
-        var logger = setupLogger('mylogger');
+        const rootLogger = setupRootLogger('mylogger');
+        const logger = rootLogger.logger;
         output(logger);
-        return Promise.timeout(100);
+        return Promise.timeout(100)
+            .then(() => {
+                rootLogger.close();
+            });
     });
 
     it('pretty', () => {
         var options = new LoggerOptions()
             .pretty(true);
-        var logger = setupLogger('mylogger', options);
+        const logger = setupLogger('mylogger', options);
         output(logger);
         return Promise.timeout(100);
     });
@@ -25,7 +29,8 @@ describe('logger-tests', () => {
             .enableFile(true)
             .path('logs/non-pretty')
             ;
-        var logger = setupLogger('mylogger', options);
+        const rootLogger = setupRootLogger('mylogger', options);
+        const logger = rootLogger.logger;
         output(logger);
         return Promise.timeout(100);
     });
@@ -35,7 +40,8 @@ describe('logger-tests', () => {
             .enableFile(true)
             .path('logs/pretty')
             ;
-        var logger = setupLogger('mylogger', options);
+        const rootLogger = setupRootLogger('mylogger', options);
+        const logger = rootLogger.logger;
         output(logger);
         return Promise.timeout(100);
     });
@@ -45,7 +51,8 @@ describe('logger-tests', () => {
             .pretty(true)
             .level(LogLevel.silly)
             ;
-        var logger = setupLogger('mylogger', options);
+        const rootLogger = setupRootLogger('mylogger', options);
+        const logger = rootLogger.logger;
         output(logger);
         return Promise.timeout(100);
     });
@@ -55,7 +62,8 @@ describe('logger-tests', () => {
             .pretty(true)
             .level(LogLevel.error)
             ;
-        var logger = setupLogger('mylogger', options);
+        const rootLogger = setupRootLogger('mylogger', options);
+        const logger = rootLogger.logger;
         output(logger);
         return Promise.timeout(100);
     });
@@ -65,7 +73,8 @@ describe('logger-tests', () => {
             .pretty(true)
             .level(LogLevel.debug)
             ;
-        var logger = setupLogger('mylogger', options);
+        const rootLogger = setupRootLogger('mylogger', options);
+        const logger = rootLogger.logger;
         output(logger);
         return Promise.timeout(100);
     });
@@ -74,7 +83,8 @@ describe('logger-tests', () => {
         var options = new LoggerOptions()
             .level(LogLevel.debug)
             ;
-        var logger = setupLogger('mylogger', options);
+        const rootLogger = setupRootLogger('mylogger', options);
+        const logger = rootLogger.logger;
         output(logger);
         return Promise.timeout(100);
     });
@@ -85,7 +95,8 @@ describe('logger-tests', () => {
             .path('logs/debug')
             .level(LogLevel.debug)
             ;
-        var logger = setupLogger('mylogger', options);
+        const rootLogger = setupRootLogger('mylogger', options);
+        const logger = rootLogger.logger;
         output(logger);
         return Promise.timeout(100);
     });
@@ -97,7 +108,8 @@ describe('logger-tests', () => {
             .path('logs/pretty-debug')
             .level(LogLevel.debug)
             ;
-        var logger = setupLogger('mylogger', options);
+        const rootLogger = setupRootLogger('mylogger', options);
+        const logger = rootLogger.logger;
         output(logger);
         return Promise.timeout(100);
     });
@@ -109,7 +121,8 @@ describe('logger-tests', () => {
             .path('logs/clear-test')
             .level(LogLevel.debug)
             ;
-        var logger = setupLogger('mylogger', options);
+        const rootLogger = setupRootLogger('mylogger', options);
+        const logger = rootLogger.logger;
         logger.info("SHOULD NOT BE HERE");
         return Promise.timeout(100);
     });
@@ -121,7 +134,8 @@ describe('logger-tests', () => {
             .path('logs/clear-test')
             .level(LogLevel.debug)
             ;
-        var logger = setupLogger('mylogger', options);
+        const rootLogger = setupRootLogger('mylogger', options);
+        const logger = rootLogger.logger;
         output(logger);
         logger.info("SHOULD see a line: \"HELLO!!!\" below");
         return Promise.timeout(100);
@@ -133,7 +147,8 @@ describe('logger-tests', () => {
             .path('logs/clear-test')
             .level(LogLevel.debug)
             ;
-        var logger = setupLogger('mylogger', options);
+        const rootLogger = setupRootLogger('mylogger', options);
+        const logger = rootLogger.logger;
         logger.info("HELLO!!!");
         return Promise.timeout(100);
     });

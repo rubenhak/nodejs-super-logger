@@ -39,6 +39,15 @@ class RootLogger
         return this._rootOptions;
     }
 
+    close()
+    {
+        for (let key in this._subloggers) {
+            let logger = this._subloggers[key];
+            logger.close();
+        }
+        this._subloggers = {};
+    }
+
     sublogger(name: string) : ILogger
     {
         if (name in this._subloggers) {

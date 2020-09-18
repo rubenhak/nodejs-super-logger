@@ -32,6 +32,10 @@ class PinoLogger extends BaseLogger implements ILogger
         return this._log!;
     }
 
+    close()
+    {
+    }
+
     _getLevel(level: LogLevel) : string {
         return LEVEL_DICT[level];
     }

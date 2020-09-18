@@ -1,21 +1,22 @@
 import 'mocha';
 import should = require('should');
 import { Promise } from 'the-promise';
-import { setupLogger, ILogger, LoggerOptions } from '../src';
+import { setupLogger, setupRootLogger, ILogger, LoggerOptions } from '../src';
 import { LogLevel } from '../src/levels';
 
 describe('dump-writer', () => {
     
     it('file-output', () => {
-        var options = new LoggerOptions()
+        const options = new LoggerOptions()
             .enableFile(true)
             .path('logs/dump-writer')
             ;
-        var logger = setupLogger('mylogger', options);
-        var writer = logger.outputStream('sample-dump1');
+        const rootLogger = setupRootLogger('mylogger', options);
+        const logger = rootLogger.logger;
+        const writer = logger.outputStream('sample-dump1');
         should(writer).be.ok();
         
-        var data = {
+        const data = {
             'foo': {
                 'bar' : [
                     'foo1',
@@ -46,13 +47,13 @@ describe('dump-writer', () => {
     });
 
     it('file-output', () => {
-        var options = new LoggerOptions()
+        const options = new LoggerOptions()
             .enableFile(true)
             .path('logs/dump-file')
             ;
-        var logger = setupLogger('mylogger', options);
+        const logger = setupLogger('mylogger', options);
 
-        var data = {
+        const data = {
             'foo': {
                 'bar' : [
                     'foo1',
