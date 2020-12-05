@@ -40,6 +40,11 @@ class DumpWriter
         return this;
     }
 
+    newLine() : DumpWriter {
+        this._writer.write('\n');
+        return this;
+    }
+
     indent() : DumpWriter {
         this._indent++;
         return this;

@@ -36,6 +36,7 @@ describe('dump-writer', () => {
                     .write(data)
                     .indent()
                     .write("zzz")
+                    .newLine()
                     .unindent()
                     .write("111")
                     .writeHeader("H3")
