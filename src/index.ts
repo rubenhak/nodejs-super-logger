@@ -3,6 +3,7 @@ import { RootLogger } from './root';
 
 import { ILogger } from './ilogger';
 import { Options, OptionsBuilder } from './options';
+import { DumpWriter } from './dump-writer'; 
 
 function setupRootLogger(name: string, options? : OptionsBuilder) : RootLogger {
     let optionsObj : Options | undefined;
@@ -20,6 +21,7 @@ function setupLogger(name: string, options? : OptionsBuilder) : ILogger {
 
 export { setupRootLogger, setupLogger };
 export { ILogger };
+export { DumpWriter };
 export { RootLogger };
 export { OptionsBuilder as LoggerOptions };
 export { LogLevel } from './levels';
