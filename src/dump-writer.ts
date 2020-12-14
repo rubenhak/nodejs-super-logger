@@ -18,7 +18,13 @@ class DumpWriter
             return this;
         }
 
-        if (_.isPlainObject(obj) || _.isArray(obj) )
+        if (_.isString(obj) || _.isNumber(obj) || _.isBoolean(obj))
+        {
+            this._writer.write('    '.repeat(this._indent));
+            this._writer.write(obj);
+            this._writer.write('\n');
+        }
+        else
         {
             for (const x of JSON.stringify(obj, null, 4).split('\n'))
             {
@@ -26,10 +32,6 @@ class DumpWriter
                 this._writer.write(x);
                 this._writer.write('\n');
             }
-        } else {
-            this._writer.write('    '.repeat(this._indent));
-            this._writer.write(obj);
-            this._writer.write('\n');
         }
         return this;
     }
