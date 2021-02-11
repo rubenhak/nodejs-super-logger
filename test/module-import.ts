@@ -5,30 +5,24 @@ import { setupLogger, setupRootLogger, ILogger, LoggerOptions } from '../src';
 import { LogLevel } from '../src/levels';
 
 describe('logger-tests', () => {
-    
     it('default-use', () => {
         const rootLogger = setupRootLogger('mylogger');
         const logger = rootLogger.logger;
         output(logger);
-        return Promise.timeout(100)
-            .then(() => {
-                rootLogger.close();
-            });
+        return Promise.timeout(100).then(() => {
+            rootLogger.close();
+        });
     });
 
     it('pretty', () => {
-        var options = new LoggerOptions()
-            .pretty(true);
+        var options = new LoggerOptions().pretty(true);
         const logger = setupLogger('mylogger', options);
         output(logger);
         return Promise.timeout(100);
     });
 
     it('file-output', () => {
-        var options = new LoggerOptions()
-            .enableFile(true)
-            .path('logs/non-pretty')
-            ;
+        var options = new LoggerOptions().enableFile(true).path('logs/non-pretty');
         const rootLogger = setupRootLogger('mylogger', options);
         const logger = rootLogger.logger;
         output(logger);
@@ -36,10 +30,7 @@ describe('logger-tests', () => {
     });
 
     it('file-output-pretty', () => {
-        var options = new LoggerOptions()
-            .enableFile(true)
-            .path('logs/pretty')
-            ;
+        var options = new LoggerOptions().enableFile(true).path('logs/pretty');
         const rootLogger = setupRootLogger('mylogger', options);
         const logger = rootLogger.logger;
         output(logger);
@@ -47,10 +38,7 @@ describe('logger-tests', () => {
     });
 
     it('level-silly', () => {
-        var options = new LoggerOptions()
-            .pretty(true)
-            .level(LogLevel.silly)
-            ;
+        var options = new LoggerOptions().pretty(true).level(LogLevel.silly);
         const rootLogger = setupRootLogger('mylogger', options);
         const logger = rootLogger.logger;
         output(logger);
@@ -58,10 +46,7 @@ describe('logger-tests', () => {
     });
 
     it('level-error', () => {
-        var options = new LoggerOptions()
-            .pretty(true)
-            .level(LogLevel.error)
-            ;
+        var options = new LoggerOptions().pretty(true).level(LogLevel.error);
         const rootLogger = setupRootLogger('mylogger', options);
         const logger = rootLogger.logger;
         output(logger);
@@ -69,10 +54,7 @@ describe('logger-tests', () => {
     });
 
     it('pretty-level-debug', () => {
-        var options = new LoggerOptions()
-            .pretty(true)
-            .level(LogLevel.debug)
-            ;
+        var options = new LoggerOptions().pretty(true).level(LogLevel.debug);
         const rootLogger = setupRootLogger('mylogger', options);
         const logger = rootLogger.logger;
         output(logger);
@@ -80,9 +62,7 @@ describe('logger-tests', () => {
     });
 
     it('non-pretty-level-debug', () => {
-        var options = new LoggerOptions()
-            .level(LogLevel.debug)
-            ;
+        var options = new LoggerOptions().level(LogLevel.debug);
         const rootLogger = setupRootLogger('mylogger', options);
         const logger = rootLogger.logger;
         output(logger);
@@ -90,11 +70,7 @@ describe('logger-tests', () => {
     });
 
     it('file-output-debug', () => {
-        var options = new LoggerOptions()
-            .enableFile(true)
-            .path('logs/debug')
-            .level(LogLevel.debug)
-            ;
+        var options = new LoggerOptions().enableFile(true).path('logs/debug').level(LogLevel.debug);
         const rootLogger = setupRootLogger('mylogger', options);
         const logger = rootLogger.logger;
         output(logger);
@@ -102,28 +78,18 @@ describe('logger-tests', () => {
     });
 
     it('file-output-pretty-debug', () => {
-        var options = new LoggerOptions()
-            .pretty(true)
-            .enableFile(true)
-            .path('logs/pretty-debug')
-            .level(LogLevel.debug)
-            ;
+        var options = new LoggerOptions().pretty(true).enableFile(true).path('logs/pretty-debug').level(LogLevel.debug);
         const rootLogger = setupRootLogger('mylogger', options);
         const logger = rootLogger.logger;
         output(logger);
         return Promise.timeout(100);
     });
 
-
     it('file-output-try-clear-1', () => {
-        var options = new LoggerOptions()
-            .enableFile(true)
-            .path('logs/clear-test')
-            .level(LogLevel.debug)
-            ;
+        var options = new LoggerOptions().enableFile(true).path('logs/clear-test').level(LogLevel.debug);
         const rootLogger = setupRootLogger('mylogger', options);
         const logger = rootLogger.logger;
-        logger.info("SHOULD NOT BE HERE");
+        logger.info('SHOULD NOT BE HERE');
         return Promise.timeout(100);
     });
 
@@ -132,59 +98,50 @@ describe('logger-tests', () => {
             .enableFile(true)
             .cleanOnStart(true)
             .path('logs/clear-test')
-            .level(LogLevel.debug)
-            ;
+            .level(LogLevel.debug);
         const rootLogger = setupRootLogger('mylogger', options);
         const logger = rootLogger.logger;
         output(logger);
-        logger.info("SHOULD see a line: \"HELLO!!!\" below");
+        logger.info('SHOULD see a line: "HELLO!!!" below');
         return Promise.timeout(100);
     });
 
     it('file-output-try-clear-2', () => {
-        var options = new LoggerOptions()
-            .enableFile(true)
-            .path('logs/clear-test')
-            .level(LogLevel.debug)
-            ;
+        var options = new LoggerOptions().enableFile(true).path('logs/clear-test').level(LogLevel.debug);
         const rootLogger = setupRootLogger('mylogger', options);
         const logger = rootLogger.logger;
-        logger.info("HELLO!!!");
+        logger.info('HELLO!!!');
         return Promise.timeout(100);
     });
 
-    function output(logger: ILogger)
-    {
-        logger.error("E - Hello, world");
-        logger.warn("W - Hello, world");
-        logger.info("I - Hello, world");
-        logger.debug("D - Hello, world");
-        logger.verbose("V - Hello, world");
-        logger.silly("S - Hello, world");
+    function output(logger: ILogger) {
+        logger.error('E - Hello, world');
+        logger.warn('W - Hello, world');
+        logger.info('I - Hello, world');
+        logger.debug('D - Hello, world');
+        logger.verbose('V - Hello, world');
+        logger.silly('S - Hello, world');
 
-        logger.info("Test: %s + %s = %s", 4, 5, 4+5);
+        logger.info('Test: %s + %s = %s', 4, 5, 4 + 5);
 
         var obj = {
             foo: 'bar',
             another: {
-                foo: 'not-foo'
-            }
-        }
-        logger.info("Hello : ", obj);
+                foo: 'not-foo',
+            },
+        };
+        logger.info('Hello : ', obj);
 
-        logger.info("Hello  %s!, data: ", 'world', obj);
+        logger.info('Hello  %s!, data: ', 'world', obj);
 
-        try
-        {
-            throw new Error("We did something wrong");
-        }
-        catch(reason)
-        {
+        try {
+            throw new Error('We did something wrong');
+        } catch (reason) {
             logger.exception(reason);
-            logger.error("Error happened. no argument: ", reason);
-            logger.error("Error happened. with argument: %s", reason);
-            logger.warn("Error happened. custom format, no error argument. in %s: ", '[output]', reason);
-            logger.warn("Error happened. custom format, with error argument. in %s: . err: %s", '[output]', reason);
+            logger.error('Error happened. no argument: ', reason);
+            logger.error('Error happened. with argument: %s', reason);
+            logger.warn('Error happened. custom format, no error argument. in %s: ', '[output]', reason);
+            logger.warn('Error happened. custom format, with error argument. in %s: . err: %s', '[output]', reason);
         }
     }
 });
