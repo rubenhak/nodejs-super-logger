@@ -1,10 +1,10 @@
 enum LogLevel {
-    error = "error",
-    warn = "warn",
-    info = "info",
-    verbose = "verbose",
-    debug = "debug",
-    silly = "silly"
+    error = 'error',
+    warn = 'warn',
+    info = 'info',
+    verbose = 'verbose',
+    debug = 'debug',
+    silly = 'silly',
 }
 
-export { LogLevel }
+export { LogLevel };

@@ -1,12 +1,11 @@
-
 import { RootLogger } from './root';
 
 import { ILogger } from './ilogger';
 import { Options, OptionsBuilder } from './options';
-import { DumpWriter } from './dump-writer'; 
+import { DumpWriter } from './dump-writer';
 
-function setupRootLogger(name: string, options? : OptionsBuilder) : RootLogger {
-    let optionsObj : Options | undefined;
+function setupRootLogger(name: string, options?: OptionsBuilder): RootLogger {
+    let optionsObj: Options | undefined;
     if (options) {
         optionsObj = options!.build();
     }
@@ -14,7 +13,7 @@ function setupRootLogger(name: string, options? : OptionsBuilder) : RootLogger {
     return rootLogger;
 }
 
-function setupLogger(name: string, options? : OptionsBuilder) : ILogger {
+function setupLogger(name: string, options?: OptionsBuilder): ILogger {
     const rootLogger = setupRootLogger(name, options);
     return rootLogger.logger;
 }

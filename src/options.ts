@@ -1,7 +1,6 @@
 import { LogLevel } from './levels';
 
-class Options
-{
+class Options {
     public pretty: boolean = false;
     public enableFile: boolean = false;
     public path?: string;
@@ -9,45 +8,37 @@ class Options
     public level: LogLevel = LogLevel.info;
 }
 
-class OptionsBuilder
-{
+class OptionsBuilder {
     private _options = new Options();
 
-    public pretty(value : boolean) : OptionsBuilder
-    {
+    public pretty(value: boolean): OptionsBuilder {
         this._options.pretty = value;
         return this;
     }
-    
-    public enableFile(value : boolean) : OptionsBuilder
-    {
+
+    public enableFile(value: boolean): OptionsBuilder {
         this._options.enableFile = value;
         return this;
     }
-    
-    public path(value : string) : OptionsBuilder
-    {
+
+    public path(value: string): OptionsBuilder {
         this._options.path = value;
         return this;
     }
-    
-    public cleanOnStart(value : boolean) : OptionsBuilder
-    {
+
+    public cleanOnStart(value: boolean): OptionsBuilder {
         this._options.cleanOnStart = value;
         return this;
     }
 
-    public level(value : LogLevel) : OptionsBuilder
-    {
+    public level(value: LogLevel): OptionsBuilder {
         this._options.level = value;
         return this;
     }
-    
-    build() : Options
-    {
+
+    build(): Options {
         return this._options;
     }
 }
 
-
-export { Options, OptionsBuilder }
+export { Options, OptionsBuilder };

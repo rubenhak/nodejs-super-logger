@@ -1,43 +1,40 @@
 import _ from 'the-lodash';
-import { join as pathJoin }  from 'path';
+import { join as pathJoin } from 'path';
 
 import { Options } from './options';
 import { LogLevel } from './levels';
 import { RootLogger } from './root';
 import { ILogger } from './ilogger';
 
-import { DumpWriter } from './dump-writer'; 
+import { DumpWriter } from './dump-writer';
 import { ensureFileDirectory } from './file-utils';
 
-class BaseLogger
-{
+class BaseLogger {
     private _root: RootLogger;
-    private _name : string;
-    protected _logFile : string | null = null;
+    private _name: string;
+    protected _logFile: string | null = null;
     private _level: LogLevel = LogLevel.info;
-    private _options : Options;
-    
-    constructor(root : RootLogger, name : string)
-    {
+    private _options: Options;
+
+    constructor(root: RootLogger, name: string) {
         this._root = root;
         this._name = name;
         this._options = root.options;
     }
 
-    get name() : string {
+    get name(): string {
         return this._name;
     }
 
-    get level() : LogLevel {
+    get level(): LogLevel {
         return this._level;
     }
 
-    get options() : Options {
+    get options(): Options {
         return this._options;
     }
 
-    setup(options : Options)
-    {
+    setup(options: Options) {
         this._options = options;
 
         if (this._options.enableFile) {
@@ -51,23 +48,17 @@ class BaseLogger
         this._implInit();
     }
 
-    sublogger(name: string) : ILogger
-    {
+    sublogger(name: string): ILogger {
         return this._root.sublogger(name);
     }
 
-    _implInit() : void
-    {
-        throw new Error("Not Implemented");
+    _implInit(): void {
+        throw new Error('Not Implemented');
     }
 
-    flush() : void
-    {
-        
-    }
+    flush(): void {}
 
-    outputStream(fileName: string) : DumpWriter | null
-    {
+    outputStream(fileName: string): DumpWriter | null {
         if (!this.options.enableFile) {
             return null;
         }
@@ -78,8 +69,7 @@ class BaseLogger
         return writer;
     }
 
-    outputFile(fileName: string, contents: any) : Promise<void>
-    {
+    outputFile(fileName: string, contents: any): Promise<void> {
         const writer = this.outputStream(fileName);
         if (!writer) {
             return Promise.resolve();

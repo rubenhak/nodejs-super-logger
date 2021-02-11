@@ -1,4 +1,3 @@
-
 import { emptyDirSync } from 'fs-extra/lib/empty';
 
 import { ILogger } from './ilogger';
@@ -6,17 +5,15 @@ import { Options } from './options';
 import { PinoLogger } from './loggers/pino';
 
 import { ensureDirectory } from './file-utils';
-class RootLogger
-{
-    private _subloggers : Record<string, PinoLogger> = {};
-    private _rootLogger : ILogger;
-    private _rootOptions : Options;
+class RootLogger {
+    private _subloggers: Record<string, PinoLogger> = {};
+    private _rootLogger: ILogger;
+    private _rootOptions: Options;
     private _rootDir: string | null = null;
 
-    constructor(name: string, options?: Options)
-    {
+    constructor(name: string, options?: Options) {
         if (options) {
-            this._rootOptions = options;    
+            this._rootOptions = options;
         } else {
             this._rootOptions = new Options();
         }
@@ -34,12 +31,11 @@ class RootLogger
         return this._rootLogger;
     }
 
-    get options() : Options {
+    get options(): Options {
         return this._rootOptions;
     }
 
-    close()
-    {
+    close() {
         for (let key in this._subloggers) {
             let logger = this._subloggers[key];
             logger.close();
@@ -47,8 +43,7 @@ class RootLogger
         this._subloggers = {};
     }
 
-    sublogger(name: string) : ILogger
-    {
+    sublogger(name: string): ILogger {
         if (name in this._subloggers) {
             return this._subloggers[name];
         }
@@ -60,8 +55,7 @@ class RootLogger
         return logger;
     }
 
-    private _setupOutputDir()
-    {
+    private _setupOutputDir() {
         if (!this._rootOptions.enableFile) {
             return;
         }
@@ -75,19 +69,16 @@ class RootLogger
         }
 
         ensureDirectory(dir);
-        
+
         this._rootDir = dir;
     }
 
-    private _create(name: string) : PinoLogger
-    {
+    private _create(name: string): PinoLogger {
         let logger = new PinoLogger(this, name);
         logger.setup(this._rootOptions);
         logger.info('Initialized');
         return logger;
     }
-
 }
-
 
 export { RootLogger };
