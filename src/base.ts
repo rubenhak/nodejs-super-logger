@@ -7,6 +7,7 @@ import { RootLogger } from './root';
 import { ILogger } from './ilogger';
 
 import { DumpWriter } from './dump-writer'; 
+import { ensureFileDirectory } from './file-utils';
 
 class BaseLogger
 {
@@ -72,6 +73,7 @@ class BaseLogger
         }
 
         const filePath = pathJoin(this._root.rootDir!, fileName);
+        ensureFileDirectory(filePath);
         const writer = new DumpWriter(filePath);
         return writer;
     }

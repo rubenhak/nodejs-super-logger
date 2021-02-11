@@ -36,7 +36,7 @@
     "pino-multi-stream": "5.1.1",
     "pino-pretty": "4.1.0",
     "the-lodash": "^2.0.0",
-    "the-promise": "^2.0.2"
+    "the-promise": "^2.0.4"
   },
   "devDependencies": {
     "@types/mocha": "^8.0.3",

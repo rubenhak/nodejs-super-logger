@@ -1,12 +1,11 @@
 
-import { existsSync as fsExistsSync } from 'fs';
 import { emptyDirSync } from 'fs-extra/lib/empty';
-import * as mkdirp from 'mkdirp'
 
 import { ILogger } from './ilogger';
 import { Options } from './options';
 import { PinoLogger } from './loggers/pino';
 
+import { ensureDirectory } from './file-utils';
 class RootLogger
 {
     private _subloggers : Record<string, PinoLogger> = {};
@@ -54,35 +53,35 @@ class RootLogger
             return this._subloggers[name];
         }
 
-        var logger = this._create(name);
+        let logger = this._create(name);
 
         this._subloggers[name] = logger;
 
         return logger;
     }
 
-    _setupOutputDir()
+    private _setupOutputDir()
     {
         if (!this._rootOptions.enableFile) {
             return;
         }
 
-        var dir = 'logs';
+        let dir = 'logs';
         if (this._rootOptions.path) {
             dir = this._rootOptions.path;
         }
         if (this._rootOptions.cleanOnStart) {
             emptyDirSync(dir);
         }
-        if (!fsExistsSync(dir)) {
-            mkdirp.sync(dir);
-        }
+
+        ensureDirectory(dir);
+        
         this._rootDir = dir;
     }
 
-    _create(name: string) : PinoLogger
+    private _create(name: string) : PinoLogger
     {
-        var logger = new PinoLogger(this, name);
+        let logger = new PinoLogger(this, name);
         logger.setup(this._rootOptions);
         logger.info('Initialized');
         return logger;
