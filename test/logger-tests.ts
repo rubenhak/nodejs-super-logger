@@ -114,6 +114,20 @@ describe('logger-tests', () => {
         return Promise.timeout(100);
     });
 
+    it('sublogger', () => {
+        var options = new LoggerOptions()
+            .level(LogLevel.debug)
+            .subLevel('processor', LogLevel.error)
+        const rootLogger = setupRootLogger('mylogger', options);
+        const logger = rootLogger.logger;
+        const sub = logger.sublogger('processor')
+        output(sub);
+        return Promise.timeout(100).then(() => {
+            rootLogger.close();
+        });
+    });
+
+
     function output(logger: ILogger) {
         logger.error('E - Hello, world');
         logger.warn('W - Hello, world');

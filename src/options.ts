@@ -1,14 +1,15 @@
 import { LogLevel } from './levels';
 
-class Options {
+export class Options {
     public pretty: boolean = false;
     public enableFile: boolean = false;
     public path?: string;
     public cleanOnStart: boolean = false;
     public level: LogLevel = LogLevel.info;
+    public subLevels: Record<string, LogLevel> = {};
 }
 
-class OptionsBuilder {
+export class OptionsBuilder {
     private _options = new Options();
 
     public pretty(value: boolean): OptionsBuilder {
@@ -36,9 +37,12 @@ class OptionsBuilder {
         return this;
     }
 
+    public subLevel(name: string, value: LogLevel): OptionsBuilder {
+        this._options.subLevels[name] = value;
+        return this;
+    }
+
     build(): Options {
         return this._options;
     }
 }
-
-export { Options, OptionsBuilder };

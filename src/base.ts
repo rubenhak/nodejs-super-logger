@@ -44,7 +44,11 @@ class BaseLogger {
             this._logFile = null;
         }
 
-        this._level = this.options.level;
+        this._level = this._options.subLevels[this._name];
+        if (!this._level) {
+            this._level = this.options.level;
+        }
+
         this._implInit();
     }
 
