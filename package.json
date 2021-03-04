@@ -1,6 +1,6 @@
 {
   "name": "the-logger",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "description": "A better logging library for node.js",
   "main": "dist/index.js",
   "types": "dist",
