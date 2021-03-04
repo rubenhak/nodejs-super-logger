@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+- stable
+before_script:
+- npm run build
+before_deploy:
+- pwd
+- ls -la
+- ls -la dist/
+deploy:
+  skip_cleanup: true
+  provider: npm
+  email: ruben.hakopian@gmail.com
+  api_key:
+    secure: BpgxlvOo1jBxb4xpg3C+l54sjdT5bLwF6psJZ0JV/J5s8Xy897TdTKRVdg9FXpwmdub2uSPc/5jjl/LNXrWHT7R3txOSlTGlfpeelBdTj6Wuepj+Jdv22bxAmL2eBhOOGlAjsS8axvftFD++guGSuufGV/DcZf8ynCFli4UBvvxlmu6qcYy7/xaVma07ERF5TurNCisQzVO0KLyRlXOekGUpyBJbmHLQbyXADzOCI8SsdxyDdN8ZN10r7ARAQYfe2RNbkyn2PMometMr69iXlg70hVKVEzbKweSXGY8cgVYhNMXPTJIBR93DD7c85eZ9t4QJl4UwrQ0AX1Jbu672Bi31EJkBdItIieEaMLjobPaO9MzxxBWo7RxLLPYtAA9yEpaKJBVlxxcPP4kjHplSUtAQEFC8AfYarhUeAVvozQFI3SiNWxpxvL32vJhaua/7IQ5QLMoI/+3akeehM0vCB8T+WI9drD6gPp22esZk2Ku8wM4vCZ+WNXeLLL3OwaglQ13x3F5Tr/bDZxtNHDf/NOSbV3X7G3Fwfpovl8ObCmpxUeRDIc5I/Bx+ZIo5F041wnAIzk9TkzDnStrsOo5dxJd/NtDyFGBN54WFPAKPeatKm1PrebgqPOkPgumpbJy5gRM9IGbj/kX49c2nf0IiBRm+5uKRkqt3IyClnKO+RRA=
+  on:
+    branch: master
+    tags: true
