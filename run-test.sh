@@ -5,7 +5,5 @@ cd $MY_DIR
 
 rm -rf ./logs
 
-export TS_NODE_COMPILER_OPTIONS="{\"module\": \"commonjs\" }"
-
-mocha -r ./node_modules/ts-node/register 'test/**/*.ts'
+npm test
 
