@@ -1,8 +1,9 @@
 import { createWriteStream } from 'fs';
 import _ from 'the-lodash';
 
-import Pino = require('pino');
+import Pino from 'pino'
 import PinoMultiStream = require('pino-multi-stream');
+import { PrettyOptions } from 'pino-pretty';
 
 import { BaseLogger } from '../base';
 import { ILogger, ILoggerFunc } from '../ilogger';
@@ -36,27 +37,28 @@ class PinoLogger extends BaseLogger implements ILogger {
     }
 
     _implInit() {
-        var myLevel = this._getLevel(this.level);
+        const myLevel = this._getLevel(this.level);
 
-        var pinoOptions: Pino.LoggerOptions = {
+        const pinoOptions: Pino.LoggerOptions = {
             name: this.name,
             level: myLevel,
         };
 
-        var outputStreamList: any[] = [];
+        const outputStreamList: any[] = [];
 
         if (this.options.pretty) {
-            const PinoPretty = require('pino-pretty');
-            const PinoGetPrettyStream = require('pino/lib/tools').getPrettyStream;
-            var prettyStream = PinoGetPrettyStream(
-                {
-                    levelFirst: false,
-                    translateTime: true,
-                    colorize: true,
-                },
-                PinoPretty,
-                process.stdout,
-            );
+
+            const prettyOptions: PrettyOptions = {
+                levelFirst: false,
+                translateTime: 'yyyy-mm-dd HH:MM:ss.l',
+                ignore: 'pid,hostname',
+            }
+            const prettyStream = 
+                PinoMultiStream.prettyStream(
+                    {
+                        prettyPrint: prettyOptions           
+                    }
+                );
             outputStreamList.push({ level: myLevel, stream: prettyStream });
         } else {
             outputStreamList.push({ level: myLevel, stream: process.stdout });
@@ -64,14 +66,14 @@ class PinoLogger extends BaseLogger implements ILogger {
         process.stdout.setMaxListeners(process.stdout.getMaxListeners() + 1);
 
         if (this._logFile) {
-            var streamOptions = {
+            const streamOptions = {
                 flags: 'a',
             };
-            var logFileStream = createWriteStream(this._logFile, streamOptions);
+            const logFileStream = createWriteStream(this._logFile, streamOptions);
             outputStreamList.push({ level: myLevel, stream: logFileStream });
         }
 
-        var myMultiStream = PinoMultiStream.multistream(outputStreamList);
+        const myMultiStream = PinoMultiStream.multistream(outputStreamList);
         this._log = Pino(pinoOptions, myMultiStream);
     }
 
@@ -103,20 +105,20 @@ class PinoLogger extends BaseLogger implements ILogger {
         this._executeLog(LogLevel.silly, msg, ...args);
     }
 
-    _executeLog(level: LogLevel, msg: string, ...args: any[]) {
-        var xlevel = this._getLevel(level);
-        var handler = this.logger[xlevel];
+    private _executeLog(level: LogLevel, msg: string, ...args: any[]) {
+        const xlevel = this._getLevel(level);
+        const handler = this.logger[xlevel];
         if (handler.name == 'noop') {
             return;
         }
-        var mergingObj: Record<string, any> = {};
+        const mergingObj: Record<string, any> = {};
         if (args.length > 0) {
-            var count = (msg.match(/%s|%d|%O|%o|%j/g) || []).length;
+            const count = (msg.match(/%s|%d|%O|%o|%j/g) || []).length;
 
-            var formatArgs = _.take(args, count);
-            var objArgs = _.drop(args, count);
+            const formatArgs = _.take(args, count);
+            const objArgs = _.drop(args, count);
             for (let i in objArgs) {
-                var obj = objArgs[i];
+                const obj = objArgs[i];
                 if (obj instanceof Error) {
                     msg += ' %s';
                     formatArgs.push(obj.stack);
@@ -135,8 +137,6 @@ class PinoLogger extends BaseLogger implements ILogger {
                 }
             }
         }
-        // console.log('mergingObj: ', mergingObj)
-        // console.log('args: ', args)
         handler.call(this._log, mergingObj, msg, ...args);
     }
 

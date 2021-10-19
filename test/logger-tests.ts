@@ -147,7 +147,7 @@ describe('logger-tests', () => {
 
         try {
             throw new Error('We did something wrong');
-        } catch (reason) {
+        } catch (reason : any) {
             logger.exception(reason);
             logger.error('Error happened. no argument: ', reason);
             logger.error('Error happened. with argument: %s', reason);

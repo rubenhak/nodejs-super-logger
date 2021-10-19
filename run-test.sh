@@ -5,5 +5,5 @@ cd $MY_DIR
 
 rm -rf ./logs
 
-npm test
+npm test $@
 
