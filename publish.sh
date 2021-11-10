@@ -27,4 +27,4 @@ if [ $RESULT -ne 0 ]; then
 fi
 
 git pull --rebase
-git push --follow-tags
+git push origin --tags
