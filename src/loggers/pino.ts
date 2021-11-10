@@ -1,8 +1,11 @@
+/** Because of issues with pino verison dependency this files is copied from original */
+/** Copied from: https://github.com/pinojs/pino-multi-stream **/
+
 import { createWriteStream } from 'fs';
 import _ from 'the-lodash';
 
 import Pino from 'pino'
-import PinoMultiStream = require('pino-multi-stream');
+import PinoMultiStream = require('./pino-multi-stream');
 import { PrettyOptions } from 'pino-pretty';
 
 import { BaseLogger } from '../base';
@@ -73,7 +76,7 @@ class PinoLogger extends BaseLogger implements ILogger {
             outputStreamList.push({ level: myLevel, stream: logFileStream });
         }
 
-        const myMultiStream = PinoMultiStream.multistream(outputStreamList);
+        const myMultiStream = Pino.multistream(outputStreamList);
         this._log = Pino(pinoOptions, myMultiStream);
     }
 
