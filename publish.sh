@@ -28,3 +28,4 @@ fi
 
 git pull --rebase
 git push origin --tags
+git push
