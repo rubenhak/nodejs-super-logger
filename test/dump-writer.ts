@@ -1,6 +1,6 @@
 import 'mocha';
-import should = require('should');
-import { Promise } from 'the-promise';
+import should from 'should';
+import { MyPromise } from 'the-promise';
 import { setupLogger, setupRootLogger, ILogger, LoggerOptions } from '../src';
 import { LogLevel } from '../src/levels';
 
@@ -36,7 +36,7 @@ describe('dump-writer', () => {
                     .close();
             })
             .then(() => {
-                return Promise.timeout(100);
+                return MyPromise.delay(100);
             });
     });
 
@@ -55,7 +55,7 @@ describe('dump-writer', () => {
                 return logger.outputFile('sample-file1', data);
             })
             .then(() => {
-                return Promise.timeout(100);
+                return MyPromise.delay(100);
             });
     });
 });

@@ -1,7 +1,7 @@
 import { createWriteStream } from 'fs';
 import { Writable } from 'stream';
 import _ from 'the-lodash';
-import { Promise } from 'the-promise';
+import { MyPromise } from 'the-promise';
 
 class DumpWriter {
     private _writer: Writable;
@@ -52,7 +52,7 @@ class DumpWriter {
     }
 
     close(): Promise<void> {
-        return Promise.construct((resolve, reject) => {
+        return MyPromise.construct((resolve, reject) => {
             this._writer.on('error', (err) => {
                 reject(err);
             });
