@@ -1,6 +1,6 @@
 {
   "name": "the-logger",
-  "version": "2.0.14",
+  "version": "2.1.0",
   "description": "A better logging library for node.js",
   "main": "dist/index.js",
   "types": "dist",
@@ -25,8 +25,8 @@
   },
   "homepage": "https://github.com/rubenhak/nodejs-super-logger#readme",
   "dependencies": {
-    "fs-extra": "9.0.1",
-    "mkdirp": "^1.0.4",
+    "fs-extra": "11.1.1",
+    "mkdirp": "2.1.6",
     "pino": "7.1.0",
     "pino-pretty": "7.2.0",
     "the-lodash": "^2.1.2",
@@ -40,7 +40,7 @@
     "@typescript-eslint/parser": "^5.57.1",
     "eslint": "^8.23.0",
     "mocha": "^10.2.0",
-    "prettier": "^2.1.0",
+    "prettier": "^2.8.7",
     "should": "^13.2.3",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.3"

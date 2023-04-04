@@ -1,4 +1,4 @@
-import { emptyDirSync } from 'fs-extra/lib/empty';
+import { emptyDirSync } from 'fs-extra';
 
 import { ILogger } from './ilogger';
 import { Options } from './options';
