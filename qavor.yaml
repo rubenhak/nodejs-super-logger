@@ -1,0 +1,16 @@
+---
+kind: project
+name: the-logger
+standalone: true
+
+---
+kind: service
+name: the-logger
+description: A better logging library for node.js
+
+profiles:
+  - https://raw.githubusercontent.com/rubenhak/qavor/refs/heads/main/profiles/node-library/qavor.yaml
+
+env:
+  common:
+    NPM_DEPENDENCIES: "the-lodash the-promise"
