@@ -5,7 +5,7 @@ import { createWriteStream } from 'fs';
 import _ from 'the-lodash';
 
 import Pino from 'pino'
-import PinoMultiStream = require('./pino-multi-stream');
+import { prettyStream } from './pino-multi-stream';
 import { PrettyOptions } from 'pino-pretty';
 
 import { BaseLogger } from '../base';
@@ -56,13 +56,8 @@ class PinoLogger extends BaseLogger implements ILogger {
                 translateTime: 'yyyy-mm-dd HH:MM:ss.l',
                 ignore: 'pid,hostname',
             }
-            const prettyStream = 
-                PinoMultiStream.prettyStream(
-                    {
-                        prettyPrint: prettyOptions           
-                    }
-                );
-            outputStreamList.push({ level: myLevel, stream: prettyStream });
+            const stream = prettyStream({ prettyPrint: prettyOptions });
+            outputStreamList.push({ level: myLevel, stream });
         } else {
             outputStreamList.push({ level: myLevel, stream: process.stdout });
         }
